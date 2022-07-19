@@ -39,6 +39,7 @@ services:
       - PGPASSWORD=postgres_password
       - PGPORT=5432
   client:
+    platform: linux/amd64
     restart: always
     build:
       dockerfile: Dockerfile
@@ -48,3 +49,7 @@ services:
     volumes:
       - /app/node_modules
       - ./front-end:/app
+    environment:
+      - NODE_ENV=development
+      # - GATSBY_WEBPACK_PUBLICPATH=/
+      # - CHOKIDAR_USEPOLLING=true

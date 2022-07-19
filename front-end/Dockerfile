@@ -1,11 +1,14 @@
 FROM node:current-alpine3.15
 
-# RUN apk update && apk add autoconf
-WORKDIR "/app"
+EXPOSE 8000
 
-COPY ./package.json .
-RUN npm install
+RUN npm config set unsafe-perm true
+RUN npm install -g gatsby-cli
+WORKDIR /app
+COPY ./package.json /app
+RUN npm cache clean --force
+# RUN npm install --arch=x64 --platform=linux --legacy-peer-deps
+COPY . /app
 
-COPY . .
-
-CMD ["npm","run","develop"]
+RUN mkdir node_modules/.cache && chmod -R 777 node_modules/.cache
+CMD ["gatsby", "develop", "-H", "0.0.0.0" ]
